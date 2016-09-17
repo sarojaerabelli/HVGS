@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
-from . import views
+from . import views, tinder
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+	url(r'^review', tinder.index, name='index'),
+    url(r'^$', views.index, name='index')
 ]
