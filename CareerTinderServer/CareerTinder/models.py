@@ -13,7 +13,6 @@ class Hiree(models.Model):
     def __str__(self):
         return self.name
 
-
 class Company(models.Model):
     name = models.CharField(max_length=200)
     logo = models.FileField('company logo')
