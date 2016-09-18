@@ -19,7 +19,7 @@ def upload_resume(request):
             newhiree = Hiree(name=request.POST.get('name'),
                              email=request.POST.get('email'),
                              college=request.POST.get('college'),
-                             degree=request.POST.get('degree'),
+                             # degree=request.POST.get('degree'),
                              year=request.POST.get('year'),
                              major=request.POST.get('major'),
                              resume_picture=request.FILES['resume_picture'],

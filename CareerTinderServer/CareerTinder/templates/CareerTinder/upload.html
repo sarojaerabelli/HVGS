@@ -4,6 +4,9 @@
 <!-- Upload form. Note enctype attribute! -->
 <div class="row">
 <div class="col-xs-6 col-xs-offset-3">
+
+<h3>Welcome, hirees!</h3>
+<p>Fill out this form to join the Hyre network. At the next hiring event, recruiters can find your resume with a snapshot of your face. That's it!</p>
 <form action="{% url 'upload_resume' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% form form=form %}

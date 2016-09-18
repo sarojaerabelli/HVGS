@@ -22,7 +22,7 @@ class Hiree(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     college = models.CharField(max_length=100)
-    degree = models.CharField(max_length=10, choices=DEGREE_CHOICES)
+    degree = models.CharField(max_length=10, choices=DEGREE_CHOICES, default="BA")
     year = models.IntegerField()
     major = models.CharField(max_length=100)
     face_picture = models.ImageField(upload_to=faces_directory_path)
