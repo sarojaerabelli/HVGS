@@ -7,12 +7,11 @@ from django.core.urlresolvers import reverse
 # Create your views here.
 def review_page(request, idx=0):
     idx = int(idx)
-    recruiter = Recruiter.objects.get(id=1)
+    recruiter = Recruiter.objects.all()[0]
     if idx == Hiree.objects.all().count():
         idx = 0
     if request.method == 'POST':
         print("You posted to me.", idx)
-        recruiter = Recruiter.objects.get(id=1)
         old_idx = idx - 1
         if old_idx < 0: old_idx += Hiree.objects.all().count()
         
@@ -31,17 +30,24 @@ def review_page(request, idx=0):
         enc.save()
         return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
     else:
-        template = loader.get_template('CareerTinder/review.html')
-        
         recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
         print("Encounters for fresh page:")
         for enc in recruiters_encs.all():
             print enc.hiree.first_name + " " + enc.hiree.last_name
+        if recruiters_encs.all().count() == 0:
+            template = loader.get_template('CareerTinder/no_page.html')
+            context = {
+                'name': recruiter.name,
+                'message': "You haven't met any candidates yet. Go out and find some recruits!"
+            }
+            return HttpResponse(template.render(context, request))
         if idx == recruiters_encs.all().count():
             idx = 0
+
+        template = loader.get_template('CareerTinder/review.html')
         hiree = recruiters_encs.all()[idx].hiree
         context = {
-            'name': recruiter.first_name + " " + recruiter.last_name,
+            'name': recruiter.name,
             'pic': hiree.face_picture.url,
             'hiree_idx': idx
         }
@@ -62,7 +68,7 @@ def browse(request):
         except Hiree.DoesNotExist:
             print("Hiree {} does not exist in the database.".format(hiree))
     context = {
-        'name': recruiter.first_name + " " + recruiter.last_name,
+        'name': recruiter.name,
         'pics': pics,
         'hirees': hirees_list
     }
