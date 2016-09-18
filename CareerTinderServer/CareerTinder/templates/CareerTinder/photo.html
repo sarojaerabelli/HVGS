@@ -2,30 +2,127 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Take a picture!</title>   
+        <title>Take a photo!</title>   
     </head>
     <body>
-    <!-- List of uploaded documents -->
-    {% if documents %}
-        <ul>
-        {% for document in documents %}
-            <li><a href="{{ document.resume_picture.url }}">{{ document.resume_picture.name }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No documents.</p>
-    {% endif %}
+        function hasGetUserMedia() {
+  return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+}
 
-        <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            <p>{{ form.resume_picture.label_tag }} {{ form.resume_picture.help_text }}</p>
-            <p>
-                {{ form.resume_picture.errors }}
-                {{ form.resume_picture }}
-            </p>
-            <p><input type="file" accept="image/*;capture=camera"></p>
-        </form>
+    <script>
+    function hasGetUserMedia() {
+        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+    }
+
+    if (hasGetUserMedia()) {
+        // Good to go!
+    } else {
+        alert('getUserMedia() is not supported in your browser');
+    }
+    </script>
+    <video autoplay></video>
+    <script>
+    var errorCallback = function(e) {
+        console.log('Reeeejected!', e);
+    };
+
+    // Not showing vendor prefixes.
+    navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+
+    var video = document.querySelector('video');
+
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia({video: true}, function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+    }, errorCallback);
+    } else {
+        video.src = 'somevideo.webm'; // fallback.
+    }
+    var hdConstraints = {
+        video: {
+            mandatory: {
+                minWidth: 1280,
+                minHeight: 720
+            }
+        }     
+    };
+
+    navigator.getUserMedia(hdConstraints, successCallback, errorCallback);
+
+    var hdConstraints = {
+      video: {
+        mandatory: {
+          minWidth: 1280,
+          minHeight: 720
+        }
+      }
+    };
+
+    navigator.getUserMedia(hdConstraints, successCallback, errorCallback);
+
+    var vgaConstraints = {
+      video: {
+        mandatory: {
+          maxWidth: 640,
+          maxHeight: 360
+        }
+      }
+    };
+
+    navigator.getUserMedia(vgaConstraints, successCallback, errorCallback);
+
+    MediaStreamTrack.getSources(function(sourceInfos) {
+        var audioSource = null;
+        var videoSource = null;
+
+        for (var i = 0; i != sourceInfos.length; ++i) {
+            var sourceInfo = sourceInfos[i];
+            if (sourceInfo.kind === 'audio') {
+              console.log(sourceInfo.id, sourceInfo.label || 'microphone');
+
+              audioSource = sourceInfo.id;
+            } else if (sourceInfo.kind === 'video') {
+              console.log(sourceInfo.id, sourceInfo.label || 'camera');
+
+              videoSource = sourceInfo.id;
+            } else {
+              console.log('Some other kind of source: ', sourceInfo);
+            }
+        }
+
+    sourceSelected(audioSource, videoSource);
+    });
+
+    function sourceSelected(audioSource, videoSource) {
+      var constraints = {
+        audio: {
+          optional: [{sourceId: audioSource}]
+        },
+        video: {
+          optional: [{sourceId: videoSource}]
+        }
+      };
+
+      navigator.getUserMedia(constraints, successCallback, errorCallback);
+    }
+    function fallback(e) {
+      video.src = 'fallbackvideo.webm';
+    }
+
+    function success(stream) {
+      video.src = window.URL.createObjectURL(stream);
+    }
+
+    if (!navigator.getUserMedia) {
+      fallback();
+    } else {
+      navigator.getUserMedia({video: true}, success, fallback);
+    }
+    </script>
     </body>
-</html>
+</html> 
