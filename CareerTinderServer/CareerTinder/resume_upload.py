@@ -5,28 +5,36 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from CareerTinder.models import Hiree
-from CareerTinder.forms import ResumeForm
+from CareerTinder.forms import InputHireeForm
 from django.shortcuts import render
 
 
-def list(request):
+def upload_resume(request):
     # Handle file upload
     if request.method == 'POST':
-        form = ResumeForm(request.POST, request.FILES)
+        # import pdb; pdb.set_trace()
+        form = InputHireeForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Hiree(resume_picture=request.FILES['resume_picture'])
-            newdoc.save()
+            newhiree = Hiree(first_name=request.POST.get('first_name'),
+                             last_name=request.POST.get('last_name'),
+                             college=request.POST.get('college'),
+                             degree=request.POST.get('degree'),
+                             year=request.POST.get('year'),
+                             major=request.POST.get('major'),
+                             resume_picture=request.FILES['resume_picture'],
+                             face_picture=request.FILES['face_picture'])
+            newhiree.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('list'))
+            return HttpResponseRedirect(reverse('upload_resume'))
     else:
-        form = ResumeForm()  # A empty, unbound form
+        form = InputHireeForm()  # A empty, unbound form
 
-    # Load documents for the list page
-    documents = Hiree.objects.all()
+    # Load hirees for the list page
+    hirees = Hiree.objects.all()
 
     # Render list page with the documents and the form
     return render(request,
         'CareerTinder/upload.html',
-        {'documents': documents, 'form': form}
+        {'hirees': hirees, 'form': form}
     )
