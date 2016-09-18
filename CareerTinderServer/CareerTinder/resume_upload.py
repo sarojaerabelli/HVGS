@@ -15,8 +15,8 @@ def upload_resume(request):
         # import pdb; pdb.set_trace()
         form = InputHireeForm(request.POST, request.FILES)
         if form.is_valid():
-            newhiree = Hiree(first_name=request.POST.get('first_name'),
-                             last_name=request.POST.get('last_name'),
+            newhiree = Hiree(name=request.POST.get('name'),
+                             email=request.POST.get('email'),
                              college=request.POST.get('college'),
                              degree=request.POST.get('degree'),
                              year=request.POST.get('year'),

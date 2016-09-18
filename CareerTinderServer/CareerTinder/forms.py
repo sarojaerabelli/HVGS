@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from material import *
+from CareerTinder.models import DEGREE_CHOICES
 
 
 class InputHireeForm(forms.Form):
-    first_name = forms.CharField(max_length=50, label='First Name:')
-    last_name = forms.CharField(max_length=50, label='Last Name:')
-    college = forms.CharField(max_length=50, label='College:')
-    degree = forms.CharField(max_length=50, label='Degree Type:',
-        help_text='highest degree completed')
-    year = forms.CharField(max_length=50, label='Graduation Date:',
-        help_text='estimated graduation date')
+    name = forms.CharField(max_length=50, label='Name:', help_text='First and last please')
+    email = forms.CharField(max_length=50, label='Email:', help_text='i.e. example@hyre.com')
+    college = forms.CharField(max_length=50, label='College:', help_text='Make sure you spell it allll out')
+    degree = forms.CharField(max_length=10, label='Degree Type:', widget=forms.Select(choices=DEGREE_CHOICES))
+    year = forms.CharField(max_length=50, label='Graduation Year:')
     major = forms.CharField(max_length=50, label='Major:')
 
-    resume_picture = forms.FileField(
-        label='Select a resume file',
-        help_text='max. 42 megabytes'
-    )
+    resume_picture = forms.FileField(label='Upload your resume as a pdf...')
+    face_picture = forms.FileField(label='Upload a clear picture of your face...')
 
-    face_picture = forms.FileField(
-        label='Select a face file',
-        help_text='max. 42 megabytes'
-    )
+    layout = Layout('name', 'email', 'college',
+        Row('major', 'year', 'degree'),
+        'resume_picture', 'face_picture')

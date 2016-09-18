@@ -1,4 +1,5 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
+from material.frontend import urls as frontend_urls
 
 from . import views, tinder, resume_upload, resume_retrieval, take_picture
 
@@ -10,5 +11,6 @@ urlpatterns = [
     url(r'^upload', resume_upload.upload_resume, name='upload_resume'),
     url(r'^retrieve', resume_retrieval.index, name='index'),
     url(r'^picture', take_picture.index, name='index'),
+    url(r'', include(frontend_urls)),
     url(r'^$', views.index, name='index')
 ]
