@@ -1,4 +1,4 @@
-{% extends "CareerTinder/index.html" %}
+{% extends "CareerTinder/template.html" %}
 {% block content %}
 {% load material_form %}
 <!-- Upload form. Note enctype attribute! -->
@@ -13,7 +13,7 @@
         {% part form.major prefix %}<i class="material-icons prefix">book</i>{% endpart %}
 
     {% endform %}
-    <input type="submit" value="Apply to be Hyred!" />
+    <input class="btn btn-block" type="submit" value="Apply to be Hyred!" />
 </form>
 </div>
 </div>

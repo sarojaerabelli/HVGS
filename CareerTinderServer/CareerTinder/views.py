@@ -4,4 +4,6 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return HttpResponse("You're at careertinder index")
+    return render(request,
+        'CareerTinder/index.html'
+    )
