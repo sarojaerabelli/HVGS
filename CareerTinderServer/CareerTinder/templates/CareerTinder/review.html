@@ -28,7 +28,7 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="#page-top">Career Tinder (change name)</a>
+                    <a class="navbar-brand" href="#page-top" style="font-size: 3em;">hyre</a>
                 </div>
                 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -53,15 +53,20 @@
             <!-- /.container-fluid -->
         </nav>
         
-            {% for pic in photo_urls %}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
             <p>Picture {{ pic }} </p>
-            <img src={{ pic }}/>
+            <img src={{ pic }} width="20%"/>
             <br/>
-            {% endfor %}
            
-           <form action="{% url 'CareerTinder:save_hiree' photo_urls %}" method="post">
+           <form action="{% url 'review_page' hiree_idx %}" method="post">
                {% csrf_token %}
-               <input type="submit" value="Yes" class="btn btn-success btn-lg"/>
+                   <input type="submit" name="submit_button" value="Yes" class="btn"/>
+                   <input type="submit" name="submit_button" value="No" class="btn"/>
            </form>
     </body>
 </html>
