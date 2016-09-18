@@ -40,6 +40,17 @@
     }
     var photo = convertCanvasToImage(canvas);
 
+    // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique
+    // if not in there, I add it to API
+
+
+    listAllSubjectsOfGallery("allPictures");
+
+
+    matchImageToPerson(photo);
+
+
+
     </script>
 </div>
 {% endblock %}
