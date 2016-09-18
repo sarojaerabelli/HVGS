@@ -1,14 +1,15 @@
 {% extends "CareerTinder/template.html" %}
+{% load staticfiles %}
 {% block content %}
 <div class="container center">
 
 <a href="{% url 'upload_resume' %}" class="btn" style="height:350px; width:350px; margin: 30px;">
-<img src="http://qcpqvim61f-flywheel.netdna-ssl.com/wp-content/uploads/2013/04/bigstock-cheerful-business-man-with-tea-219568371.jpg" height="25%"><br>
+<img src="{% static 'img/man.png' %}"><br>
 <h3>Hiree?</h3>
 </a>
 
 <a href="{% url 'picture' %}" class="btn" style="height:350px; width:350px; margin: 30px;">
-<img src="http://qcpqvim61f-flywheel.netdna-ssl.com/wp-content/uploads/2013/04/bigstock-cheerful-business-man-with-tea-219568371.jpg" height="25%"><br>
+<img src="{% static 'img/woman.png' %}"><br>
 <h3>Recruiter?</h3>
 </a>
 <p>
