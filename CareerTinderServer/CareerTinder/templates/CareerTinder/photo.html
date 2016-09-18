@@ -10,6 +10,11 @@
     <br>
     <button id="snap" style="margin: auto;" >Snap Photo</button>
     <canvas id="canvas" width="640" height="480"></canvas>
+    
+    <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+    <script src="../../static/js/kairos.js"></script>
+    <script src="../../static/js/webSearcher.js"></script>
+    
     <script>
     // Grab elements, create settings, etc.
     var video = document.getElementById('video');
@@ -28,27 +33,26 @@
     var video = document.getElementById('video');
 
     // Trigger photo take
-    document.getElementById("snap").addEventListener("click", function() {
-      context.drawImage(video, 0, 0, 640, 480);
-    });
-
     // Converts canvas to an image
     function convertCanvasToImage(canvas) {
         var image = new Image();
         image.src = canvas.toDataURL("image/png");
         return image;
     }
-    var photo = convertCanvasToImage(canvas);
+    document.getElementById("snap").addEventListener("click", function() {
+      context.drawImage(video, 0, 0, 640, 480);
+        var photo = convertCanvasToImage(canvas);
 
-    // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique
-    // if not in there, I add it to API
+        // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique
+        // if not in there, I add it to API
 
 
-    listAllSubjectsOfGallery("allPictures");
+        listAllSubjectsOfGallery("allPictures");
 
 
-    matchImageToPerson(photo);
+        matchImageToPerson(photo, "allPictures");
 
+    });
 
 
     </script>
