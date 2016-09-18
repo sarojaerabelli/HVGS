@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views, tinder, resume_upload, resume_retrieval, take_picture
 
+app_name = 'CareerTinder'
 urlpatterns = [
     url(r'^review', tinder.index, name='index'),
     url(r'^upload', resume_upload.list, name='list'),

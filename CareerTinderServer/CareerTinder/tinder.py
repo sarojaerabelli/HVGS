@@ -21,3 +21,6 @@ def index(request):
         'photo_urls': face_pictures
     }
     return HttpResponse(template.render(context, request))
+
+def save_hiree(photo_urls):
+    print("saved hiree")
