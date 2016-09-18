@@ -10,7 +10,8 @@
     </div>
     <div class="col-xs-12 col-sm-9 col-md-9">
         <center>
-            <img src={{ pic }} width="50%"/>
+            <div class="circle-avatar" style="background-image:url({{ pic }});"></div>
+            <div id="pdf_viewer"></div>
         <br/>
         <br/>
         <form action="{% url 'review_page' hiree_idx %}" method="post">
@@ -22,4 +23,11 @@
         </center>
     </div>
 </div>
+
+<script src="../../static/js/PDFObject/pdfobject.js"></script>
+<script>PDFObject.embed("{{ hiree.resume_picture.url }}", "#pdf_viewer");</script>
+<style>
+    .pdfobject-container { height: 60%; width: 50%;}
+    .pdfobject { border: 1px solid #666; }
+</style>
 {% endblock %}
