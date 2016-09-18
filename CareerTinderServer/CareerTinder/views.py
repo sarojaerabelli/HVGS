@@ -7,3 +7,8 @@ def index(request):
     return render(request,
         'CareerTinder/index.html'
     )
+
+def about(request):
+    return render(request,
+        'CareerTinder/about.html'
+    )
