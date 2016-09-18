@@ -22,6 +22,7 @@ def review_page(request, idx=0):
         recruiter = Recruiter.objects.get(id=1)
 
         try:
+            print(recruiter.hirees)
             hiree = Hiree.objects.get(id=recruiter.hirees[idx])
         except Hiree.DoesNotExist:
             print("Hiree {} does not exist in the database.".format(hiree))
