@@ -54,6 +54,7 @@ function matchImageToPerson(image, gallery_id) {
     // var base64_data = toDataUrl(image, function(base64Img) {
 	   //  kairos.recognize(base64Img, gallery_id, myDetectCallback, options);
     // });
+    image = image.src.replace(/^data:image\/(png|jpg);base64,/, "")
 
 
     // (4) pass your params and callback to the function

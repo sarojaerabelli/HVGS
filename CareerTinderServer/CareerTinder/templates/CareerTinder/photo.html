@@ -7,14 +7,14 @@
         <p>Already visited potential candidates? <a href="{% url 'review_page' %}">Review your notes here!</a></p>
         <br/>
         <br/>
-        <button id="snap" style="margin: auto;" >Snap Photo</button>
+        <button id="snap" class="btn" style="margin: auto;" >Snap Photo</button>
     </div>
-    <div class="col-xs-12 col-sm-9 col-md-9">
+    <div class="col-xs-12 col-sm-9 col-md-9" id="mycolumn">
         <div class="video-container" style="position: relative; height=480px; width=640px;">
             <video id="video" style="display: block; margin: auto; width: 100%; height: 100%; position: absolute; top: 0; left: 0;" autoplay></video>
             <br/>
-            <canvas id="canvas" style="width: 640px; height: 480px; top: 0; left: 0; z-index: -2; visibility: hidden;"></canvas>
         </div>
+        <canvas id="canvas" style="width: 640px; height: 480px; top: 0; left: 0; z-index: 2; visibility: hidden;"></canvas>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
@@ -43,10 +43,11 @@
     function convertCanvasToImage(canvas) {
         var image = new Image();
         image.src = canvas.toDataURL("image/png");
+        
         return image;
     }
     document.getElementById("snap").addEventListener("click", function() {
-      context.drawImage(video, 0, 0, 640, 480);
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
         var photo = convertCanvasToImage(canvas);
 
         // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique

@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^picture', take_picture.index, name='picture'),
     url(r'^home', views.index, name='home'),
     url(r'^about', views.about, name='about'),
+    url(r'^_imagepaths', resume_retrieval.face_list, name='face_list'),
     url(r'^$', views.index, name='index')
 ]
