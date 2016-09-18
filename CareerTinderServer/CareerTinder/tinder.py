@@ -19,7 +19,7 @@ def review_page(request, idx=0):
         recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
         print("Encounters:")
         for enc in recruiters_encs.all():
-            print enc.hiree.first_name
+            print enc.hiree.first_name + " " + enc.hiree.last_name
         enc = recruiters_encs.all()[idx]
         if request.POST['submit_button'] == 'Yes':
             enc.status = '2'
@@ -36,12 +36,12 @@ def review_page(request, idx=0):
         recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
         print("Encounters for fresh page:")
         for enc in recruiters_encs.all():
-            print enc.hiree.first_name
+            print enc.hiree.first_name + " " + enc.hiree.last_name
         if idx == recruiters_encs.all().count():
             idx = 0
         hiree = recruiters_encs.all()[idx].hiree
         context = {
-            'name': recruiter.name,
+            'name': recruiter.first_name + " " + recruiter.last_name,
             'pic': hiree.face_picture.url,
             'hiree_idx': idx
         }
@@ -62,7 +62,7 @@ def browse(request):
         except Hiree.DoesNotExist:
             print("Hiree {} does not exist in the database.".format(hiree))
     context = {
-        'name': recruiter.name,
+        'name': recruiter.first_name + " " + recruiter.last_name,
         'pics': pics,
         'hirees': hirees_list
     }
