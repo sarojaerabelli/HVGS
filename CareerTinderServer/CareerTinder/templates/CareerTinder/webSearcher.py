@@ -178,18 +178,18 @@ if result is not None:
 
 
 
-faceServiceClient = new FaceServiceClient("Your subscription key");
+# faceServiceClient = new FaceServiceClient("Your subscription key");
 
-// Create an empty person group
-string personGroupId = "myfriends";
-await faceServiceClient.CreatePersonGroupAsync(personGroupId, "My Friends");
+# // Create an empty person group
+# string personGroupId = "myfriends";
+# await faceServiceClient.CreatePersonGroupAsync(personGroupId, "My Friends");
 
-// Define Anna
-CreatePersonResult friend1 = await faceServiceClient.CreatePersonAsync(
-    // Id of the person group that the person belonged to
-    personGroupId,    
-    // Name of the person
-    "Anna"            
-);
+# // Define Anna
+# CreatePersonResult friend1 = await faceServiceClient.CreatePersonAsync(
+#     // Id of the person group that the person belonged to
+#     personGroupId,    
+#     // Name of the person
+#     "Anna"            
+# );
 
-// Define Bill and Clare in the same way
+# // Define Bill and Clare in the same way
