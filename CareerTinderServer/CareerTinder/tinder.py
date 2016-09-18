@@ -7,14 +7,15 @@ from django.core.urlresolvers import reverse
 # Create your views here.
 def review_page(request, idx=0):
     idx = int(idx)
+    if idx == Hiree.objects.all().count():
+        idx = 0
     if request.method == 'POST':
         print("You posted to me.", idx)
         recruiter = Recruiter.objects.get(id=1)
         if request.POST['submit_button'] == 'Yes':
-            
+            return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
         elif request.POST['submit_button'] == 'No':
-
-        return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
+            return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
     else:
         template = loader.get_template('CareerTinder/review.html')
         
