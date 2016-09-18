@@ -8,8 +8,16 @@ def index(request):
     
     recruiter = Recruiter.objects.get(id=1)
     
+    face_pictures = []
+    for hiree in recruiter.hirees:
+        try:
+            pic = Hiree.objects.get(id=hiree)
+            face_pictures.append(pic.face_picture.url)
+        except Hiree.DoesNotExist:
+            print("Hiree {} does not exist in the database.".format(hiree))
+    print("Pictures:", face_pictures)
     context = {
         'name': recruiter.name,
-        'photo_urls': [hiree.face_picture for hiree in recruiter.interested_hirees]
+        'photo_urls': face_pictures
     }
     return HttpResponse(template.render(context, request))
