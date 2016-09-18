@@ -18,7 +18,7 @@ def review_page(request, idx=0):
         recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
         print("Encounters:")
         for enc in recruiters_encs.all():
-            print enc.hiree.first_name + " " + enc.hiree.last_name
+            print enc.hiree.name
         enc = recruiters_encs.all()[idx]
         if request.POST['submit_button'] == 'Yes':
             enc.status = '2'
@@ -33,7 +33,7 @@ def review_page(request, idx=0):
         recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
         print("Encounters for fresh page:")
         for enc in recruiters_encs.all():
-            print enc.hiree.first_name + " " + enc.hiree.last_name
+            print enc.hiree.name
         if recruiters_encs.all().count() == 0:
             template = loader.get_template('CareerTinder/no_page.html')
             context = {

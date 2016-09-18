@@ -13,8 +13,7 @@ DEGREE_CHOICES = (
 
 
 class Hiree(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     college = models.CharField(max_length=100)
     degree = models.CharField(max_length=10, choices=DEGREE_CHOICES)
@@ -24,7 +23,7 @@ class Hiree(models.Model):
     resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.name
 
 
 class Company(models.Model):
