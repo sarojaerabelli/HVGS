@@ -1,12 +1,25 @@
 {% extends "CareerTinder/template.html" %}
 {% block content %}
-<p>Picture {{ pic }} </p>
-<img src={{ pic }} width="20%"/>
-<br/>
-
-<form action="{% url 'review_page' hiree_idx %}" method="post">
-    {% csrf_token %}
-    <input type="submit" name="submit_button" value="No" class="btn"/>
-    <input type="submit" name="submit_button" value="Yes" class="btn"/>
-</form>
+<div class="row">
+    <div class="col-xs-12 col-sm-3 col-md-3 col-xs-push-2">
+        <h4>{{ hiree.name }}</h4>
+        <p><b>College:</b> {{ hiree.college }}</p>
+        <p><b>Major:</b> {{ hiree.major }}</p>
+        <p><b>Year:</b> {{ hiree.year }}</p>
+        <p><a href="mailto:{{ hiree.email }}">Email this candidate</a></p>
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-9">
+        <center>
+            <img src={{ pic }} width="50%"/>
+        <br/>
+        <br/>
+        <form action="{% url 'review_page' hiree_idx %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="submit_button" value="No" class="btn"/>
+            <input type="submit" name="submit_button" value="Later" class="btn"/>
+            <input type="submit" name="submit_button" value="Yes" class="btn"/>
+        </form>
+        </center>
+    </div>
+</div>
 {% endblock %}

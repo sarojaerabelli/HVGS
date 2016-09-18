@@ -8,7 +8,16 @@ def index(request):
         'CareerTinder/index.html'
     )
 
+
 def about(request):
     return render(request,
         'CareerTinder/about.html'
     )
+
+
+def error404(request):
+    template = loader.get_template('CareerTinder/no_page.html')
+    context = {
+        'message': "Oops, looks like this HackMIT team needed the 404 page after all."
+    }
+    return HttpResponse(template.render(context, request))

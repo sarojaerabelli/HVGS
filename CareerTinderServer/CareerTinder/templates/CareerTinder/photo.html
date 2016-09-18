@@ -1,43 +1,45 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Take a photo!</title>   
-    </head>
-    <body> 
-      <video id="video" width="640" height="480" autoplay></video>
-      <button id="snap">Snap Photo</button>
-      <canvas id="canvas" width="640" height="480"></canvas>
-      <script>
-        // Grab elements, create settings, etc.
-        var video = document.getElementById('video');
+{% extends "CareerTinder/index.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-sm-3 col-md-3 col-xs-push-1">
+        <h3>Welcome, recruiters!</h3>
+        <p>Already visited potential candidates? <a href="{% url 'review_page' %}">Review your notes here!</a></p>
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-9">
+    <video id="video" height="75%" style="display: block; margin: auto;" autoplay></video>
+    <br>
+    <button id="snap" style="margin: auto;" >Snap Photo</button>
+    <!--<canvas id="canvas" width="640" height="480"></canvas>-->
+    <script>
+    // Grab elements, create settings, etc.
+    var video = document.getElementById('video');
 
-        // Get access to the camera!
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                video.src = window.URL.createObjectURL(stream);
-                video.play();
-            });
-        }
-
-        // Elements for taking the snapshot
-        var canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
-        var video = document.getElementById('video');
-
-        // Trigger photo take
-        document.getElementById("snap").addEventListener("click", function() {
-          context.drawImage(video, 0, 0, 640, 480);
+    // Get access to the camera!
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            video.src = window.URL.createObjectURL(stream);
+            video.play();
         });
+    }
 
-        // Converts canvas to an image
-        function convertCanvasToImage(canvas) {
-            var image = new Image();
-            image.src = canvas.toDataURL("image/png");
-            return image;
-        }
-        var photo = convertCanvasToImage(canvas);
+    // Elements for taking the snapshot
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
 
-      </script>
-    </body>
-</html> 
+    // Trigger photo take
+    document.getElementById("snap").addEventListener("click", function() {
+      context.drawImage(video, 0, 0, 640, 480);
+    });
+
+    // Converts canvas to an image
+    function convertCanvasToImage(canvas) {
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+    var photo = convertCanvasToImage(canvas);
+
+    </script>
+</div>
+{% endblock %}
