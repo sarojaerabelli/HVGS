@@ -6,16 +6,17 @@ from django.utils import timezone
 
 class Hiree(models.Model):
     name = models.CharField(max_length=200)
-    date_of_birth = models.DateTimeField('date of birth')
-    face_picture = models.FileField('face')
-    resume_picture = models.FileField('resume')
+    date_of_birth = models.DateField('date of birth')
+    face_picture = models.ImageField(upload_to='media/faces/')
+    resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):
         return self.name
 
+
 class Company(models.Model):
     name = models.CharField(max_length=200)
-    logo = models.FileField('company logo')
+    logo = models.ImageField(upload_to='media/logos/')
 
     def __str__(self):
         return self.name
