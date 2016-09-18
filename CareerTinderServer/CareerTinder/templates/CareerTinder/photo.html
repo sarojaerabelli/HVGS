@@ -3,12 +3,15 @@
 <div class="row">
     <div class="col-xs-12 col-sm-3 col-md-3 col-xs-push-1">
         <h3>Welcome, recruiters!</h3>
+        <p>Snap a photo of a candidate to save their resume.</p>
         <p>Already visited potential candidates? <a href="{% url 'review_page' %}">Review your notes here!</a></p>
+        <br/>
+        <br/>
+        <button id="snap" style="margin: auto;" >Snap Photo</button>
     </div>
     <div class="col-xs-12 col-sm-9 col-md-9">
     <video id="video" height="75%" style="display: block; margin: auto;" autoplay></video>
     <br>
-    <button id="snap" style="margin: auto;" >Snap Photo</button>
     <canvas id="canvas" width="640" height="480"></canvas>
     
     <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
