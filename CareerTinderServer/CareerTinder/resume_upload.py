@@ -25,6 +25,10 @@ def upload_resume(request):
                              face_picture=request.FILES['face_picture'])
             newhiree.save()
 
+            # call javascript function
+                        
+
+
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('upload_resume'))
     else:

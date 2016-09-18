@@ -1,20 +1,9 @@
-// database holds 
-/*
-name
-date_of_birth
-face_picture
-resume_picture
-
-Hiree
-
-
-
-
-
-*/
-
 var kairos = new Kairos("188bc00d", "8f75c1508b57e341b4f0a0a57db1fe79");
 
+
+function addAllNewPictures(gallery_id) {
+	listAllSubjectsOfGallery(gallery_id);
+}
 
 function addNewPicture(image, subject_id, gallery_id) {
     // (1) set up your callback method
@@ -41,7 +30,17 @@ function addNewPicture(image, subject_id, gallery_id) {
 function matchImageToPerson(image, gallery_id) {
     // (1) set up your callback method
     function myDetectCallback(response) {
-        console.log(response.responseText);
+    	var str = response.responseText;
+		var json = JSON.stringify(eval("(" + str + ")"));
+
+		json.images["transaction"].subject;
+
+		var regex = /(\d*)\.\w+/;
+		var match = regex.exec(json.images["transaction"].subject);
+
+		window.location = "thumbnails/" + match[1];
+
+        // console.log(response.responseText);
     }
 
     // (2) prepare your parameters  
@@ -52,13 +51,13 @@ function matchImageToPerson(image, gallery_id) {
     // (3) ... as well as any optional parameters you wish to send
     var options = { "threshold": 0.75 };
 
-    var base64_data = toDataUrl(image, function(base64Img) {
-	    kairos.recognize(base64Img, gallery_id, myDetectCallback, options);
-    });
+    // var base64_data = toDataUrl(image, function(base64Img) {
+	   //  kairos.recognize(base64Img, gallery_id, myDetectCallback, options);
+    // });
 
 
     // (4) pass your params and callback to the function
-    // kairos.recognize(image_data, gallery_id, myDetectCallback, options);
+    kairos.recognize(image, gallery_id, myDetectCallback, options);
 }
 
 function listAllGalleries() {
@@ -74,7 +73,23 @@ function listAllGalleries() {
 function listAllSubjectsOfGallery(gallery_id) {
     // (1) set up your callback method
     function myDetectCallback(response) {
-        alert(response.responseText);
+    	var str = response.responseText;
+		var json = JSON.stringify(eval("(" + str + ")"));
+
+		var listOfIDs = json.subject_ids;
+
+		var imageFolder = '../../../media/media/faces/';
+		var imgsrc = "";
+		var i = 0;
+
+		imgsrc = imageFolder + i;
+		while (UrlExists(imgsrc)) {
+			i++;
+			if (listOfIDs.indexOf(imgsrc) > -1) {
+				addNewPicture(imgsrc, i, gallery_id);
+			}
+			imgsrc = imageFolder + i;
+		}
     }
 
     // (2) prepare your parameters  
@@ -83,6 +98,15 @@ function listAllSubjectsOfGallery(gallery_id) {
     // (3) pass your params and callback to the function
     kairos.viewSubjectsInGallery(gallery_id, myDetectCallback);
 }
+
+
+function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+}
+
 
 function removeGallery(gallery_id) {
     // (1) set up your callback method

@@ -9,7 +9,14 @@
     <video id="video" height="75%" style="display: block; margin: auto;" autoplay></video>
     <br>
     <button id="snap" style="margin: auto;" >Snap Photo</button>
-    <!--<canvas id="canvas" width="640" height="480"></canvas>-->
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <!-- from retrieve.html -->
+    <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+    <script src="../assets/kairos.js"></script>
+    <script src="webSearcher.js"></script>
+
+
     <script>
     // Grab elements, create settings, etc.
     var video = document.getElementById('video');
@@ -39,6 +46,17 @@
         return image;
     }
     var photo = convertCanvasToImage(canvas);
+
+    // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique
+    // if not in there, I add it to API
+
+
+    listAllSubjectsOfGallery("allPictures");
+
+
+    matchImageToPerson(photo);
+
+
 
     </script>
 </div>
