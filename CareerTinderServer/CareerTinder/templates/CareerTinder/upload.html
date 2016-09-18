@@ -5,25 +5,68 @@
         <title>Minimal Django File Upload Example</title>   
     </head>
     <body>
-    <!-- List of uploaded documents -->
-    {% if documents %}
+    <!-- List of uploaded hirees -->
+    {% if hirees %}
         <ul>
-        {% for document in documents %}
-            <li><a href="{{ document.resume_picture.url }}">{{ document.resume_picture.name }}</a></li>
+        {% for hiree in hirees %}
+            <li><a href="{{ hiree.resume_picture.url }}">{{ hiree.resume_picture.name }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>No documents.</p>
+        <p>No hirees.</p>
     {% endif %}
 
         <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'upload_resume' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
+            
+            <p>{{ form.first_name.label_tag }}</p>
+            <p>
+                {{ form.first_name.errors }}
+                {{ form.first_name }}
+            </p>
+
+            <p>{{ form.last_name.label_tag }}</p>
+            <p>
+                {{ form.last_name.errors }}
+                {{ form.last_name }}
+            </p>
+
+            <p>{{ form.college.label_tag }}</p>
+            <p>
+                {{ form.college.errors }}
+                {{ form.college }}
+            </p>
+
+            <p>{{ form.degree.label_tag }} {{ form.degree.help_text }}</p>
+            <p>
+                {{ form.degree.errors }}
+                {{ form.degree }}
+            </p>
+
+            <p>{{ form.year.label_tag }} {{ form.year.help_text }}</p>
+            <p>
+                {{ form.year.errors }}
+                {{ form.year }}
+            </p>
+
+            <p>{{ form.major.label_tag }}</p>
+            <p>
+                {{ form.major.errors }}
+                {{ form.major }}
+            </p>
+
             <p>{{ form.resume_picture.label_tag }} {{ form.resume_picture.help_text }}</p>
             <p>
                 {{ form.resume_picture.errors }}
                 {{ form.resume_picture }}
+            </p>
+
+            <p>{{ form.face_picture.label_tag }} {{ form.face_picture.help_text }}</p>
+            <p>
+                {{ form.face_picture.errors }}
+                {{ form.face_picture }}
             </p>
             <p><input type="submit" value="Upload" /></p>
         </form>
