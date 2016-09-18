@@ -12,6 +12,12 @@ DEGREE_CHOICES = (
 )
 
 
+def faces_directory_path(instance, filename):
+    import pdb; pdb.set_trace();
+    return 'media/faces/{0}'.format(instance.face_picture.id)
+
+
+
 class Hiree(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
@@ -19,7 +25,7 @@ class Hiree(models.Model):
     degree = models.CharField(max_length=10, choices=DEGREE_CHOICES)
     year = models.IntegerField()
     major = models.CharField(max_length=100)
-    face_picture = models.ImageField(upload_to='media/faces/')
+    face_picture = models.ImageField(upload_to=faces_directory_path)
     resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):
