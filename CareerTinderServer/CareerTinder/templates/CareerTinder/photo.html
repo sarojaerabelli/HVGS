@@ -4,125 +4,40 @@
         <meta charset="utf-8">
         <title>Take a photo!</title>   
     </head>
-    <body>
-        function hasGetUserMedia() {
-  return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-}
+    <body> 
+      <video id="video" width="640" height="480" autoplay></video>
+      <button id="snap">Snap Photo</button>
+      <canvas id="canvas" width="640" height="480"></canvas>
+      <script>
+        // Grab elements, create settings, etc.
+        var video = document.getElementById('video');
 
-    <script>
-    function hasGetUserMedia() {
-        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    }
-
-    if (hasGetUserMedia()) {
-        // Good to go!
-    } else {
-        alert('getUserMedia() is not supported in your browser');
-    }
-    </script>
-    <video autoplay></video>
-    <script>
-    var errorCallback = function(e) {
-        console.log('Reeeejected!', e);
-    };
-
-    // Not showing vendor prefixes.
-    navigator.getUserMedia  = navigator.getUserMedia ||
-                          navigator.webkitGetUserMedia ||
-                          navigator.mozGetUserMedia ||
-                          navigator.msGetUserMedia;
-
-    var video = document.querySelector('video');
-
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia({video: true}, function(stream) {
-        video.src = window.URL.createObjectURL(stream);
-    }, errorCallback);
-    } else {
-        video.src = 'somevideo.webm'; // fallback.
-    }
-    var hdConstraints = {
-        video: {
-            mandatory: {
-                minWidth: 1280,
-                minHeight: 720
-            }
-        }     
-    };
-
-    navigator.getUserMedia(hdConstraints, successCallback, errorCallback);
-
-    var hdConstraints = {
-      video: {
-        mandatory: {
-          minWidth: 1280,
-          minHeight: 720
-        }
-      }
-    };
-
-    navigator.getUserMedia(hdConstraints, successCallback, errorCallback);
-
-    var vgaConstraints = {
-      video: {
-        mandatory: {
-          maxWidth: 640,
-          maxHeight: 360
-        }
-      }
-    };
-
-    navigator.getUserMedia(vgaConstraints, successCallback, errorCallback);
-
-    MediaStreamTrack.getSources(function(sourceInfos) {
-        var audioSource = null;
-        var videoSource = null;
-
-        for (var i = 0; i != sourceInfos.length; ++i) {
-            var sourceInfo = sourceInfos[i];
-            if (sourceInfo.kind === 'audio') {
-              console.log(sourceInfo.id, sourceInfo.label || 'microphone');
-
-              audioSource = sourceInfo.id;
-            } else if (sourceInfo.kind === 'video') {
-              console.log(sourceInfo.id, sourceInfo.label || 'camera');
-
-              videoSource = sourceInfo.id;
-            } else {
-              console.log('Some other kind of source: ', sourceInfo);
-            }
+        // Get access to the camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            });
         }
 
-    sourceSelected(audioSource, videoSource);
-    });
+        // Elements for taking the snapshot
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('video');
 
-    function sourceSelected(audioSource, videoSource) {
-      var constraints = {
-        audio: {
-          optional: [{sourceId: audioSource}]
-        },
-        video: {
-          optional: [{sourceId: videoSource}]
+        // Trigger photo take
+        document.getElementById("snap").addEventListener("click", function() {
+          context.drawImage(video, 0, 0, 640, 480);
+        });
+
+        // Converts canvas to an image
+        function convertCanvasToImage(canvas) {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            return image;
         }
-      };
+        var photo = convertCanvasToImage(canvas);
 
-      navigator.getUserMedia(constraints, successCallback, errorCallback);
-    }
-    function fallback(e) {
-      video.src = 'fallbackvideo.webm';
-    }
-
-    function success(stream) {
-      video.src = window.URL.createObjectURL(stream);
-    }
-
-    if (!navigator.getUserMedia) {
-      fallback();
-    } else {
-      navigator.getUserMedia({video: true}, success, fallback);
-    }
-    </script>
+      </script>
     </body>
 </html> 
