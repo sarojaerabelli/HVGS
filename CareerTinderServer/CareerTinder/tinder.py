@@ -7,25 +7,39 @@ from django.core.urlresolvers import reverse
 # Create your views here.
 def review_page(request, idx=0):
     idx = int(idx)
+    recruiter = Recruiter.objects.get(id=1)
     if idx == Hiree.objects.all().count():
         idx = 0
     if request.method == 'POST':
         print("You posted to me.", idx)
         recruiter = Recruiter.objects.get(id=1)
+        old_idx = idx - 1
+        if old_idx < 0: old_idx += Hiree.objects.all().count()
+        
+        recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
+        print("Encounters:")
+        for enc in recruiters_encs.all():
+            print enc.hiree.first_name
+        enc = recruiters_encs.all()[idx]
         if request.POST['submit_button'] == 'Yes':
-            return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
+            enc.status = '2'
+        #elif request.POST['submit_button'] == 'Later':
+        #enc.status = 0
         elif request.POST['submit_button'] == 'No':
-            return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
+            enc.status = '1'
+        print("New status:", enc.status)
+        enc.save()
+        return HttpResponseRedirect(reverse("review_page", args=(idx + 1,)))
     else:
         template = loader.get_template('CareerTinder/review.html')
         
-        recruiter = Recruiter.objects.get(id=1)
-
-        try:
-            print(recruiter.hirees)
-            hiree = Hiree.objects.get(id=recruiter.hirees[idx])
-        except Hiree.DoesNotExist:
-            print("Hiree {} does not exist in the database.".format(hiree))
+        recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
+        print("Encounters for fresh page:")
+        for enc in recruiters_encs.all():
+            print enc.hiree.first_name
+        if idx == recruiters_encs.all().count():
+            idx = 0
+        hiree = recruiters_encs.all()[idx].hiree
         context = {
             'name': recruiter.name,
             'pic': hiree.face_picture.url,

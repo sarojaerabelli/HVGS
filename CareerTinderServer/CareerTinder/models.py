@@ -43,4 +43,8 @@ class Recruiter(models.Model):
 class Relations(models.Model):
     hiree = models.ForeignKey(Hiree, on_delete=models.CASCADE)
     recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
-    
+    encounter_date = models.DateTimeField(default=datetime.datetime.now())
+    # 0 = not considered yet or deferred
+    # 1 = rejected
+    # 2 = accepted
+    status = models.CharField(choices=( ('0', "Undecided"), ('1', "Rejected"), ('2', "Accepted") ), max_length=20)
