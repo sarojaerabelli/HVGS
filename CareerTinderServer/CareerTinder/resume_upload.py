@@ -22,8 +22,10 @@ def upload_resume(request):
                              # degree=request.POST.get('degree'),
                              year=request.POST.get('year'),
                              major=request.POST.get('major'),
-                             resume_picture=request.FILES['resume_picture'],
-                             face_picture=request.FILES['face_picture'])
+                             resume_picture=request.FILES['resume_picture'])
+            newhiree.save()
+
+            newhiree.face_picture=request.FILES['face_picture']
             newhiree.save()
 
             # call javascript function

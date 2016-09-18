@@ -11,6 +11,11 @@ DEGREE_CHOICES = (
     ('DO', "Ph.D. or Higher")
 )
 
+
+def update_filename(instance, filename):
+    return "media/faces/" + str(instance.id) + filename[filename.rfind('.'):]
+
+
 class Hiree(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
@@ -18,7 +23,7 @@ class Hiree(models.Model):
     degree = models.CharField(max_length=10, choices=DEGREE_CHOICES, default="BA")
     year = models.IntegerField()
     major = models.CharField(max_length=100)
-    face_picture = models.ImageField(upload_to='media/faces/')
+    face_picture = models.ImageField(upload_to=update_filename, blank=True)
     resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):
