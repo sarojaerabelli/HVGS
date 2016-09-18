@@ -49,6 +49,7 @@ def review_page(request, idx=0):
         context = {
             'name': recruiter.name,
             'pic': hiree.face_picture.url,
+            'hiree': hiree,
             'hiree_idx': idx
         }
         return HttpResponse(template.render(context, request))
