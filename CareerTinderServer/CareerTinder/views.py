@@ -8,6 +8,13 @@ def index(request):
         'CareerTinder/index.html'
     )
 
+
+def about(request):
+    return render(request,
+        'CareerTinder/about.html'
+    )
+
+
 def error404(request):
     template = loader.get_template('CareerTinder/no_page.html')
     context = {
