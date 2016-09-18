@@ -39,3 +39,8 @@ class Recruiter(models.Model):
 
     def __str__(self):
         return "%s from %s" % (self.name, self.company)
+
+class Relations(models.Model):
+    hiree = models.ForeignKey(Hiree, on_delete=models.CASCADE)
+    recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
+    
