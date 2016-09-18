@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from CareerTinder.models import Hiree
 from CareerTinder.forms import InputHireeForm
 from django.shortcuts import render
+import os
 
 
 def upload_resume(request):

@@ -14,12 +14,14 @@
             <div id="pdf_viewer"></div>
         <br/>
         <br/>
+        {% block response_section %}
         <form action="{% url 'review_page' hiree_idx %}" method="post">
             {% csrf_token %}
             <input type="submit" name="submit_button" value="No" class="btn"/>
             <input type="submit" name="submit_button" value="Later" class="btn"/>
             <input type="submit" name="submit_button" value="Yes" class="btn"/>
         </form>
+        {% endblock %}
         </center>
     </div>
 </div>

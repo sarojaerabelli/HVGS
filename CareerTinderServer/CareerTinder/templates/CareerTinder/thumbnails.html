@@ -1,0 +1,8 @@
+{% extends "CareerTinder/review.html" %}
+{% block response_section %}
+<form action="{% url 'thumbnails' hiree.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="submit_button" value="No" class="btn"/>
+    <input type="submit" name="submit_button" value="Yes" class="btn"/>
+</form>
+{% endblock %}

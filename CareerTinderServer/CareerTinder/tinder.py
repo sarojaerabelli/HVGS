@@ -54,23 +54,62 @@ def review_page(request, idx=0):
         }
         return HttpResponse(template.render(context, request))
 
+def hiree_thumbnail_page(request, hiree_id=-1):
+    recruiter = Recruiter.objects.all()[0]
+    if request.method == 'POST':
+        print("You posted to me.", idx)
+        if request.POST['submit_button'] == 'No':
+            encs = Relations.objects.filter(recruiter=recruiter, hiree=int(hiree_id)).delete()
+            pass
+        return HttpResponseRedirect(reverse("photo"))
+    elif hiree_id >= 0:
+        encounter = Relations()
+        encounter.hiree = Hiree.objects.get(id=int(hiree_id))
+        encounter.recruiter = recruiter
+        encounter.save()
+        template = loader.get_template('CareerTinder/thumbnails.html')
+        hiree = encounter.hiree
+        context = {
+            'name': recruiter.name,
+            'pic': hiree.face_picture.url,
+            'hiree': hiree,
+        }
+        return HttpResponse(template.render(context, request))
+    template = loader.get_template('CareerTinder/no_page.html')
+    context = {
+        'name': recruiter.name,
+        'message': "Invalid parameters to the thumbnails page."
+    }
+    return HttpResponse(template.render(context, request))
+
+
 def browse(request):
     template = loader.get_template('CareerTinder/browse.html')
     
-    recruiter = Recruiter.objects.get(id=1)
+    recruiter = Recruiter.objects.all()[0]
 
     hirees_list = []
     pics = []
-    for hiree in recruiter.hirees:
+    id_idx = {}
+    recruiters_encs = Relations.objects.filter(recruiter=recruiter).order_by('encounter_date')
+    for i, encounter in enumerate(recruiters_encs):
         try:
-            obj = Hiree.objects.get(id=hiree)
-            hirees_list.append(hiree)
-            pics.append(obj.face_picture)
+            if encounter.hiree not in hirees_list:
+                hirees_list.append(encounter.hiree)
+                pics.append(encounter.hiree.face_picture)
+                id_idx[encounter.hiree.id] = i
         except Hiree.DoesNotExist:
             print("Hiree {} does not exist in the database.".format(hiree))
     context = {
         'name': recruiter.name,
         'pics': pics,
-        'hirees': hirees_list
+        'hirees': hirees_list,
+        'id_idx': id_idx
     }
     return HttpResponse(template.render(context, request))
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
