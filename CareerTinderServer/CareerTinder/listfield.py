@@ -2,7 +2,6 @@ from django.db import models
 import ast
 
 class ListField(models.TextField):
-    __metaclass__ = models.SubfieldBase
     description = "Stores a python list"
     
     def __init__(self, *args, **kwargs):
@@ -17,6 +16,15 @@ class ListField(models.TextField):
         
         return ast.literal_eval(value)
     
+    def from_db_value(self, value, expr, connection, ctx):
+        if not value:
+            value = []
+        
+        if isinstance(value, list):
+            return value
+
+        return ast.literal_eval(value)
+
     def get_prep_value(self, value):
         if value is None:
             return value
