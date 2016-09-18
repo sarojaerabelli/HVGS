@@ -9,7 +9,7 @@
     {% if documents %}
         <ul>
         {% for document in documents %}
-            <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+            <li><a href="{{ document.resume_picture.url }}">{{ document.resume_picture.name }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
@@ -20,10 +20,10 @@
         <form action="{% url 'list' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.non_field_errors }}</p>
-            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>{{ form.resume_picture.label_tag }} {{ form.resume_picture.help_text }}</p>
             <p>
-                {{ form.docfile.errors }}
-                {{ form.docfile }}
+                {{ form.resume_picture.errors }}
+                {{ form.resume_picture }}
             </p>
             <p><input type="submit" value="Upload" /></p>
         </form>
