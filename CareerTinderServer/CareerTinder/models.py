@@ -11,13 +11,6 @@ DEGREE_CHOICES = (
     ('DO', "Ph.D. or Higher")
 )
 
-
-def faces_directory_path(instance, filename):
-    import pdb; pdb.set_trace();
-    return 'media/faces/{0}'.format(instance.face_picture.id)
-
-
-
 class Hiree(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
@@ -25,7 +18,7 @@ class Hiree(models.Model):
     degree = models.CharField(max_length=10, choices=DEGREE_CHOICES, default="BA")
     year = models.IntegerField()
     major = models.CharField(max_length=100)
-    face_picture = models.ImageField(upload_to=faces_directory_path)
+    face_picture = models.ImageField(upload_to='media/faces/')
     resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):

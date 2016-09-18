@@ -8,7 +8,6 @@ class InputHireeForm(forms.Form):
     name = forms.CharField(max_length=50, label='Name:', help_text='First and last name please.')
     email = forms.CharField(max_length=50, label='Email:', help_text='This is how recruiters will contact you i.e. example@hyre.com.')
     college = forms.CharField(max_length=50, label='College:', help_text='Spell out the full name of your college!')
-    # degree = forms.CharField(max_length=10, label='Degree Type:', widget=forms.Select(choices=DEGREE_CHOICES))
     year = forms.CharField(max_length=50, label='Graduation Year:')
     major = forms.CharField(max_length=50, label='Major:')
 
