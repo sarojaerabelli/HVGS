@@ -6,7 +6,7 @@ from listfield import ListField
 
 class Hiree(models.Model):
     name = models.CharField(max_length=200)
-    date_of_birth = models.DateField('date of birth')
+    date_of_birth = models.DateField('date of birth', default=datetime.date(2016, 9, 17))
     face_picture = models.ImageField(upload_to='media/faces/')
     resume_picture = models.FileField(upload_to='media/resumes/')
 

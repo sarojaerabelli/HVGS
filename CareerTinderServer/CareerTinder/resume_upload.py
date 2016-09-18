@@ -5,27 +5,28 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from CareerTinder.models import Hiree
-from CareerTinder.forms import DocumentForm
+from CareerTinder.forms import ResumeForm
+from django.shortcuts import render
 
 
 def list(request):
     # Handle file upload
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
+        form = ResumeForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Hiree(docfile=request.FILES['docfile'])
+            newdoc = Hiree(resume_picture=request.FILES['resume_picture'])
             newdoc.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('myapp.views.list'))
+            return HttpResponseRedirect(reverse('list'))
     else:
-        form = DocumentForm()  # A empty, unbound form
+        form = ResumeForm()  # A empty, unbound form
 
     # Load documents for the list page
     documents = Hiree.objects.all()
 
     # Render list page with the documents and the form
-    return render_to_response(
+    return render(request,
         'CareerTinder/upload.html',
         {'documents': documents, 'form': form}
     )
