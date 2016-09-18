@@ -31,3 +31,24 @@ def review_page(request, idx=0):
             'hiree_idx': idx
         }
         return HttpResponse(template.render(context, request))
+
+def browse(request):
+    template = loader.get_template('CareerTinder/browse.html')
+    
+    recruiter = Recruiter.objects.get(id=1)
+
+    hirees_list = []
+    pics = []
+    for hiree in recruiter.hirees:
+        try:
+            obj = Hiree.objects.get(id=hiree)
+            hirees_list.append(hiree)
+            pics.append(obj.face_picture)
+        except Hiree.DoesNotExist:
+            print("Hiree {} does not exist in the database.".format(hiree))
+    context = {
+        'name': recruiter.name,
+        'pics': pics,
+        'hirees': hirees_list
+    }
+    return HttpResponse(template.render(context, request))
