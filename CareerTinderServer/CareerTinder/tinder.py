@@ -22,8 +22,8 @@ def review_page(request, idx=0):
         enc = recruiters_encs.all()[idx]
         if request.POST['submit_button'] == 'Yes':
             enc.status = '2'
-        #elif request.POST['submit_button'] == 'Later':
-        #enc.status = 0
+        elif request.POST['submit_button'] == 'Later':
+            enc.status = '0'
         elif request.POST['submit_button'] == 'No':
             enc.status = '1'
         print("New status:", enc.status)
@@ -45,6 +45,14 @@ def review_page(request, idx=0):
             idx = 0
 
         template = loader.get_template('CareerTinder/review.html')
+        orig_idx = idx
+        while recruiters_encs.all()[idx].status != '0':
+            idx += 1
+            if idx == recruiters_encs.all().count():
+                idx = 0
+            if idx == orig_idx:
+                return HttpResponseRedirect(reverse("browse"))
+
         hiree = recruiters_encs.all()[idx].hiree
         context = {
             'name': recruiter.name,
@@ -95,7 +103,7 @@ def browse(request):
     for i, encounter in enumerate(recruiters_encs):
         try:
             if encounter.hiree not in hirees_list:
-                hirees_list.append(encounter.hiree)
+                hirees_list.append((encounter.hiree, encounter.status))
                 pics.append(encounter.hiree.face_picture)
                 id_idx[encounter.hiree.id] = i
         except Hiree.DoesNotExist:

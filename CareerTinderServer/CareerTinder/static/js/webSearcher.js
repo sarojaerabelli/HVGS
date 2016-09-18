@@ -18,7 +18,7 @@ function addNewPicture(image, subject_id, gallery_id) {
     // var base64_data = toDataURL(image);
 
     var base64_data = toDataUrl(image, function(base64Img) {
-        kairos.enroll(base64Img, gallery_id, subject_id, myDetectCallback);
+        kairos.enroll(base64Img, gallery_id, subject_id.substring(0, subject_id.length - 4), myDetectCallback);
     });
 
 
@@ -33,7 +33,11 @@ function matchImageToPerson(image, gallery_id) {
     	var str = response.responseText;
 		var json = JSON.stringify(eval("(" + str + ")"));
 
-		json.images["transaction"].subject;
+        if (json.images != null) {
+            json.images["transaction"].subject;
+        } else {
+            alert("No matches found in the database. Please try again!");
+        }
 
 		var regex = /(\d*)\.\w+/;
 		var match = regex.exec(json.images["transaction"].subject);
@@ -71,26 +75,24 @@ function listAllGalleries() {
     kairos.viewGalleries(myDetectCallback);
 }
 
-function listAllSubjectsOfGallery(gallery_id) {
+function listAllSubjectsOfGallery(gallery_id, listOfIDs) {
     // (1) set up your callback method
     function myDetectCallback(response) {
-    	var str = response.responseText;
-		var json = JSON.stringify(eval("(" + str + ")"));
+//    	var str = response.responseText;
+//		var json = JSON.stringify(eval("(" + str + ")"));
 
-		var listOfIDs = json.subject_ids;
-
+//		var listOfIDs = json.subject_ids;
+        
+        
 		var imageFolder = '../../../media/media/faces/';
 		var imgsrc = "";
-		var i = 0;
-
-		imgsrc = imageFolder + i;
-		while (UrlExists(imgsrc)) {
-			i++;
-			if (listOfIDs.indexOf(imgsrc) > -1) {
-				addNewPicture(imgsrc, i, gallery_id);
-			}
-			imgsrc = imageFolder + i;
-		}
+		
+        
+        for (var ID in listOfIDs) {
+            imgsrc = imageFolder + listOfIDs[ID];
+            addNewPicture(imgsrc, listOfIDs[ID], gallery_id);
+        }
+        
     }
 
     // (2) prepare your parameters  

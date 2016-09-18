@@ -52,12 +52,14 @@
 
         // ok so get galleries subjects which will tell me names and the names of files in media folder/face should be unique
         // if not in there, I add it to API
+                                                     
+        $.getJSON('/CareerTinder/_imagepaths', function(data, jqXHR) {
+        console.log(data)
+          listAllSubjectsOfGallery("allPictures", data);
+        });
+                                                     
+         matchImageToPerson(photo, "allPictures");
 
-
-        listAllSubjectsOfGallery("allPictures");
-
-
-        matchImageToPerson(photo, "allPictures");
 
     });
 

@@ -1,7 +1,9 @@
 {% extends "CareerTinder/template.html" %}
+{% load staticfiles %}
 {% block content %}
 <div class="row">
     <div class="col-xs-12 col-sm-5 col-md-5" style="padding-left: 50px;">
+        <a href="{% url 'browse' %}">Summary</a>
         <center>
         <div class="circle-avatar" style="border: 1px solid #333; background-image:url({{ pic }}); height:160px; width:160px; border-radius: 50%;background-position-y: center; background-position-x: center; background-repeat: no-repeat; background-size: cover; align: left; z-index: 1;"></div>
         <h4>{{ hiree.name }}</h4>
@@ -27,7 +29,7 @@
         {% endblock %}    </div>
 </div>
 
-<script src="../../static/js/PDFObject/pdfobject.js"></script>
+<script src="{% static 'js/PDFObject/pdfobject.js' %}"></script>
 <script>PDFObject.embed("{{ hiree.resume_picture.url }}", "#pdf_viewer");</script>
 <style>
     .pdfobject-container { height: 60%; width: 80%; }
