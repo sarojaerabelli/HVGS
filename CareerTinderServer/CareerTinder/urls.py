@@ -1,4 +1,5 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
+from material.frontend import urls as frontend_urls
 
 from . import views, tinder, resume_upload, resume_retrieval, take_picture
 

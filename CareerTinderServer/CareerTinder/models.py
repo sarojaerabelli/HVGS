@@ -4,15 +4,17 @@ from django.db import models
 from django.utils import timezone
 from listfield import ListField
 
-class Hiree(models.Model):
-    DEGREE_CHOICES = (
-        ('BA', "Bachelor's"),
-        ('MA', "Master's"),
-        ('DO', "Doctorate")
-    )
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+DEGREE_CHOICES = (
+    ('BA', "B.A./B.S."),
+    ('MA', "M.A./M.S."),
+    ('DO', "Ph.D. or Higher")
+)
+
+
+class Hiree(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
     college = models.CharField(max_length=100)
     degree = models.CharField(max_length=10, choices=DEGREE_CHOICES)
     year = models.IntegerField()
@@ -21,7 +23,7 @@ class Hiree(models.Model):
     resume_picture = models.FileField(upload_to='media/resumes/')
 
     def __str__(self):
-        return self.first_name
+        return self.name
 
 
 class Company(models.Model):
